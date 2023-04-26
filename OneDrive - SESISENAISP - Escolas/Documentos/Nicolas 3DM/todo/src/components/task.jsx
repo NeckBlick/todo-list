@@ -1,17 +1,31 @@
-import './style.css'
-import {BsTrash3Fill} from 'react-icons/bs'
-import { AiFillCheckCircle } from 'react-icons/ai'
+import { BsTrash3Fill } from "react-icons/bs";
+import { AiFillCheckCircle } from "react-icons/ai";
+import "./style.css";
 
-const task = ({title, isCompleted, onDelete}) => {
+const task = ({ task, onDelete}) => {
+  
+  
   return (
-    <div className='container-task'>
-        {isCompleted ? <AiFillCheckCircle/> :  <div className='complete'> </div>}
-            <h1 className='title'>Concluir o código</h1>
-        <div className='delete'>
-            <BsTrash3Fill/>
-        </div>
-    </div>
-  )
-}
+    <div className="container-task">
 
-export default task
+        {task.isCompleted ? (
+          <AiFillCheckCircle  />
+        ) : (
+          <div className="complete" >
+            {" "}
+          </div>
+        )}
+      <h1
+        className={!task.isCompleted ? "title" : "completed"}
+        
+      >
+        {task.title}
+      </h1>
+      <div className="delete" onClick={() => onDelete(task.id) }>
+        <BsTrash3Fill />
+      </div>
+    </div>
+  );
+};
+
+export default task;

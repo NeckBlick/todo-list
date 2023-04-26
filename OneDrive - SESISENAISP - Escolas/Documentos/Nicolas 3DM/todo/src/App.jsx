@@ -1,26 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Task from "./components/task.jsx";
 import "./App.css";
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [taskTitle, setTaskTitle] = useState();
-  const [isCompleted, setIsCompleted] = useState(false);
+  const qntsTasks = tasks.length;
 
+  // Create task
   function createTask(e) {
     e.preventDefault();
     const newTask = {
       id: crypto.randomUUID(),
       title: taskTitle,
-      isCompleted: isCompleted,
+      isCompleted: false,
     };
-    setTasks({ ...tasks, newTask })
-    localStorage.setItem(
-      "@task",
-      JSON.stringify(tasks)
-    );
-    setTaskTitle("")
+    setTasks([...tasks, newTask]);
+    localStorage.setItem("@task", JSON.stringify(tasks));
+    setTaskTitle("");
   }
+
+  // Delete task
+  const deleteTask = (id) => {
+    const newTasks = tasks.filter((task) => task.id !== id);
+    setTasks(newTasks);
+  };
+
+  useEffect(() => {
+    const tasks = JSON.parse(localStorage.getItem("@task"));
+    if (tasks) {
+      setTasks(tasks);
+    }
+  }, []);
 
   return (
     <div className="container">
@@ -42,15 +53,22 @@ function App() {
         <header className="header-main">
           <div>
             <h3>Total</h3>
-            <p>10</p>
+            <p>{qntsTasks}</p>
           </div>
           <div>
             <h3>Tarefas concluídas</h3>
-            <p>1 de 10</p>
+            <p> de {qntsTasks}</p>
           </div>
         </header>
         <section>
-          <Task isCompleted={isCompleted} />
+          {tasks.map((task) => (
+            <Task
+              key={task.id}
+              task={task}
+              onDelete={deleteTask}
+              setTasks={setTasks}
+            />
+          ))}
         </section>
       </main>
     </div>

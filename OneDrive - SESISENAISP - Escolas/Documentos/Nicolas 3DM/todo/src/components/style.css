@@ -20,6 +20,14 @@
     font-size: 1.5rem;
     text-align: center;
     flex: 1;
+    text-transform: capitalize;
+}
+.container-task .completed{
+    font-size: 1.5rem;
+    text-align: center;
+    flex: 1;
+    text-decoration: line-through;
+    text-transform: capitalize;
 }
 .container-task svg{
     width: 1.2rem;
